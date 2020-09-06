@@ -23,8 +23,10 @@ dropR()   { echo "${1:0:$((${#1} - $2))}"; } # https://superuser.com/q/1033273 $
 
 checkHub() {
   if [ ! -f "${HOME}/.config/hub" ]; then
-    echo "No hub config found (at ~/.config/hub).  Triggering hub to prompt you for credentials."
-    hub api
+    if [ -z ${GITHUB_TOKEN+x} ]; then
+      echo "No ~/.config/hub or GITHUB_TOKEN.  Triggering hub to prompt you for credentials."
+      hub api
+    fi
   fi
 }
 
